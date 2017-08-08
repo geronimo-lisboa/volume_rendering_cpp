@@ -1,0 +1,25 @@
+cmake_minimum_required(VERSION 2.8)
+project(VolumeRendering)
+set(ITK_DIR "C:/lib/InsightToolkit-4.8.1-64")
+find_package(ITK REQUIRED)
+include(${ITK_USE_FILE})
+
+file(GLOB my_source_files "*.h" "*.cpp" "*.cxx")
+add_executable(vr ${my_source_files} )  
+target_link_libraries(vr   ${ITK_LIBRARIES})
+find_package(OpenGL)
+target_link_libraries(vr ${OPENGL_LIBRARIES})
+include_directories(C:/lib/glew-2.0.0/include)
+target_link_libraries(vr C:/lib/glew-2.0.0/lib/Release/x64/glew32.lib)
+
+include_directories(C:/lib/glfw/include)
+target_link_libraries(vr debug C:/lib/glfw_build/src/Debug/glfw3.lib)
+target_link_libraries(vr optimized C:/lib/glfw_build/src/Release/glfw3.lib)
+
+SET (EIGEN3_INCLUDE_DIR "C:/Program Files (x86)/Eigen3/include")
+include_directories(${EIGEN3_INCLUDE_DIR})
+
+#suprime o warning chato dos infernos que a ITK gera por usar funções inseguras da api do windows
+add_definitions(-D_SCL_SECURE_NO_WARNINGS)
+
+
