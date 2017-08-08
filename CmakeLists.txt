@@ -16,7 +16,9 @@ include_directories(C:/libs/glfw/include)
 target_link_libraries(vr debug C:/libs/glfw_bin/src/Debug/glfw3.lib)
 target_link_libraries(vr optimized C:/libs/glfw_bin/src/Release/glfw3.lib)
 
-SET (EIGEN3_INCLUDE_DIR "C:/Program Files/Eigen3/include")
+include_directories(C:/libs/glm)
+
+SET (EIGEN3_INCLUDE_DIR "C:/Program Files/Eigen3/include/eigen3")
 include_directories(${EIGEN3_INCLUDE_DIR})
 
 #suprime o warning chato dos infernos que a ITK gera por usar funções inseguras da api do windows

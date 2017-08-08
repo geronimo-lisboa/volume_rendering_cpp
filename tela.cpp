@@ -20,7 +20,7 @@ TelaGLFW::TelaGLFW(int screenWidth, int screenHeight)
 	if (!window)//Se falhou em criar a janela, morre.
 	{
 		glfwTerminate();
-		throw std::exception("N�o foi possivel criar a janela");
+		throw std::exception("Nao foi possivel criar a janela");
 	}
 
 	glfwMakeContextCurrent(window);
