@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 	shared_ptr<VolumeRenderer> vr = nullptr;
 	shared_ptr<Framebuffer> fb = nullptr;
 	TelaGLFW tela(500, 500);
-
+	bool useFramebuffer = false;
 	tela.SetInitCallback([&camera, &vr, &fb]()
 	{
 		//Inicialização da câmera
@@ -30,10 +30,24 @@ int main(int argc, char** argv)
 		fb = make_shared<Framebuffer>();
 	});
 
-	tela.SetRenderCallback([&camera, &vr, &fb]()
+	tela.SetRenderCallback([&camera, &vr, &fb, &useFramebuffer]()
 	{
-		vr->Render(camera);
-		fb->Render(camera);
+		if (!useFramebuffer)
+		{
+			vr->Render(camera);
+		}
+		else{
+			vr->Render(camera);
+			fb->Render(camera);
+		}
+	});
+
+	tela.SetOnKeyInputCallback([&useFramebuffer](GLFWwindow*wnd, int key, int scancode, int action, int mods){
+		if ((key == GLFW_KEY_F) && (action ==1))
+		{
+			useFramebuffer = !useFramebuffer;
+			cout << "switch do framebuffer" << endl;
+		}
 	});
 	tela.InitRenderLoop();
 	return 0;

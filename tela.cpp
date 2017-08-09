@@ -1,6 +1,6 @@
 ﻿#include "tela.h"
 #include <sstream>
-
+TelaGLFW* TelaGLFW::handleForGLFWCallbacks;
 TelaGLFW::TelaGLFW(int screenWidth, int screenHeight)
 {
 	this->screenWidth = screenWidth;
@@ -41,8 +41,14 @@ TelaGLFW::TelaGLFW(int screenWidth, int screenHeight)
 	isInitialized = false;
 	initFunction = nullptr;
 	renderFunction = nullptr;
+	onKeyInputFunction = nullptr;
+	handleForGLFWCallbacks = this;//GAMBIARRA PQ A GLFW USA CALLBACKS DE C E NÃO STD::FUNCTION
+	glfwSetKeyCallback(window, TelaGLFW::InternalOnKeyInputCbk);
 }
-
+void TelaGLFW::SetOnKeyInputCallback(std::function<void(GLFWwindow* wnd, int key, int scancode, int action, int mods)> fn)
+{
+	this->onKeyInputFunction = fn;
+}
 TelaGLFW::~TelaGLFW()
 {
 	glfwDestroyWindow(window);
