@@ -1,12 +1,20 @@
 #include <iostream>
 #include "framebuffer.h"
 
+void Framebuffer::Ativar()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+}
 
+void Framebuffer::Desativar()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
 
 Framebuffer::Framebuffer()
 {
 	glGenFramebuffers(1, &framebuffer);
-	//glGenRenderbuffers(1, &depthRenderbuffer);
+	glGenRenderbuffers(1, &depthRenderbuffer);
 	glGenTextures(1, &texture);
 	//Cria e configura a textura
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -14,14 +22,14 @@ Framebuffer::Framebuffer()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	//Cria e configura o renderbuffer
-	//glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
-	//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, 500, 500);
+	glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, 500, 500);
 	//Bind do framebuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 	//atacha a textura como color attachment
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D, texture, 0);
 	//e o depth buffer como depth attachment
-	//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
 	GLenum statusDoFramebuffer = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (statusDoFramebuffer != GL_FRAMEBUFFER_COMPLETE)
 	{
@@ -43,9 +51,12 @@ Framebuffer::Framebuffer()
 
 	fsSrc << "#version 400" << std::endl;
 	fsSrc << "in vec3 vertColor;" << std::endl;
+	fsSrc << "uniform sampler2D renderedTexture;" << std::endl;
 	fsSrc << "out vec4 fragColor;" << std::endl;
 	fsSrc << "	void main() {" << std::endl;
-	fsSrc << "	fragColor = vec4(vertColor, 1.0);" << std::endl;
+	fsSrc << "  vec2 tc = vec2(vertColor[0], vertColor[1]);" << std::endl;
+	fsSrc << "	fragColor = texture(renderedTexture, tc);" << std::endl;
+	fsSrc << "	fragColor[0]=0.0;" << std::endl;
 	fsSrc << "}" << std::endl;
 
 	shader = std::make_shared<Shader>(vsSrc, fsSrc);
@@ -68,10 +79,10 @@ Framebuffer::Framebuffer()
 	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(0.0f);
 	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(0.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(0.0f);
-	colors.push_back(0.1f); colors.push_back(0.0f); colors.push_back(0.0f);
-	colors.push_back(0.2f); colors.push_back(0.0f); colors.push_back(0.0f);
-	colors.push_back(0.6f); colors.push_back(0.0f); colors.push_back(0.0f);
-	colors.push_back(0.9f); colors.push_back(0.1f); colors.push_back(0.0f);
+	colors.push_back(0.0f); colors.push_back(0.0f); colors.push_back(0.0f);
+	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
+	colors.push_back(0.0f); colors.push_back(1.0f); colors.push_back(0.0f);
+	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
 
 	vertexBufferObject = CreateBuffer<float>(GL_ARRAY_BUFFER, vertexes);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
@@ -87,13 +98,17 @@ void Framebuffer::Render(const shared_ptr<Camera>& camera)
 {
 	shader->UseProgram();
 
-	glBindVertexArray(vertexArrayObject);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
 
+	glBindVertexArray(vertexArrayObject);
+	GLuint texID = shader->GetUniform("renderedTexture");
 	GLuint positionLocation = shader->GetAttribute("position");
 	GLuint colorLocation = shader->GetAttribute("color");
 
 	glBindAttribLocation(shader->GetProgramId(), positionLocation, "position");
 	glBindAttribLocation(shader->GetProgramId(), colorLocation, "color");
+	glUniform1i(texID, 0);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }

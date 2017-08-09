@@ -27,4 +27,6 @@ private:
 public:
 	Framebuffer();
 	void Render(const shared_ptr<Camera>& camera);
+	void Ativar();
+	void Desativar();
 };

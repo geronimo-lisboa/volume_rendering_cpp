@@ -37,7 +37,9 @@ int main(int argc, char** argv)
 			vr->Render(camera);
 		}
 		else{
+			fb->Ativar();
 			vr->Render(camera);
+			fb->Desativar();
 			fb->Render(camera);
 		}
 	});
@@ -45,6 +47,7 @@ int main(int argc, char** argv)
 	tela.SetOnKeyInputCallback([&useFramebuffer](GLFWwindow*wnd, int key, int scancode, int action, int mods){
 		if ((key == GLFW_KEY_F) && (action ==1))
 		{
+
 			useFramebuffer = !useFramebuffer;
 			cout << "switch do framebuffer" << endl;
 		}
