@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include "framebuffer.h"
 
 void Framebuffer::Ativar()
@@ -38,7 +38,7 @@ Framebuffer::Framebuffer()
 		throw std::exception(erroFb.str().c_str());
 	}
 	std::cout << "Aparentemente o framebuffer foi criado com sucesso" << std:: endl;
-	//Criação do shader
+	//Criaï¿½ï¿½o do shader
 	std::stringstream vsSrc, fsSrc;
 	vsSrc << "#version 400" << std::endl;
 	vsSrc << "layout(location = 0) in vec3 position;" << std::endl;
@@ -62,8 +62,8 @@ Framebuffer::Framebuffer()
 	shader = std::make_shared<Shader>(vsSrc, fsSrc);
 	teste_opengl();
 	//O VERTEX ARRAY OBJECT TEM QUE ESTAR CRIADO E BINDADO ANTES DE QQER
-	//OPERAÇÃO RELATIVA A VERTICES, COMO glEnableVertexAttribArray. SE O
-	//VAO NÃO ESTIVER BINDADO ANTES, VAI DAR ERRO 1282 em glEnableVertexAttribArray.
+	//OPERAï¿½ï¿½O RELATIVA A VERTICES, COMO glEnableVertexAttribArray. SE O
+	//VAO Nï¿½O ESTIVER BINDADO ANTES, VAI DAR ERRO 1282 em glEnableVertexAttribArray.
 	vertexArrayObject = 0;
 	glGenVertexArrays(1, &vertexArrayObject);
 	glBindVertexArray(vertexArrayObject);
@@ -74,7 +74,7 @@ Framebuffer::Framebuffer()
 	glEnableVertexAttribArray(positionLocation);
 	glEnableVertexAttribArray(colorLocation);
 	glUseProgram(0);
-	//Criação da geometria
+	//Criaï¿½ï¿½o da geometria
 	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(0.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(0.0f);
 	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(0.0f);
