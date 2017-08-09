@@ -8,6 +8,7 @@
 class VolumeRenderer
 {
 private:
+	glm::mat4x4 modelMatrix;
 	GLuint vertexArrayObject, vertexBufferObject, vertexColorObject;
 	std::vector<GLfloat> vertexes, colors;
 	std::shared_ptr<Shader> shader;

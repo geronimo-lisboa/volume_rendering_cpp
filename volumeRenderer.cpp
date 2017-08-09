@@ -12,14 +12,21 @@ void teste_opengl()
 }
 VolumeRenderer::VolumeRenderer()
 {
+	modelMatrix = glm::mat4x4(1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1);
 	//Criação do shader
 	std::stringstream vsSrc, fsSrc;
 	vsSrc << "#version 400" << std::endl;
 	vsSrc << "layout(location = 0) in vec3 position;" << std::endl;
 	vsSrc << "layout(location = 1) in vec3 color;" << std::endl;
+	vsSrc << "uniform mat4 projectionMat;" << std::endl;
+	vsSrc << "uniform mat4 viewMat;" << std::endl;
+	vsSrc << "uniform mat4 modelMat;" << std::endl;
 	vsSrc << "out vec3 vertColor;" << std::endl;
 	vsSrc << "	void main() {" << std::endl;
-	vsSrc << "	gl_Position = vec4(position, 1.0);" << std::endl;
+	vsSrc << "	gl_Position = projectionMat * viewMat * modelMat * vec4(position, 1.0);" << std::endl;
 	vsSrc << "	vertColor = color;" << std::endl;
 	vsSrc << "}" << std::endl;
 	
@@ -71,9 +78,17 @@ void VolumeRenderer::Render(const shared_ptr<Camera>& camera)
 	
 	GLuint positionLocation = shader->GetAttribute("position");
 	GLuint colorLocation = shader->GetAttribute("color");
+	GLuint modelMatLocation = shader->GetUniform("modelMat");
+	GLuint viewMatLocation = shader->GetUniform("viewMat");
+	GLuint projectionMatLocation = shader->GetUniform("projectionMat");
 	
 	glBindAttribLocation(shader->GetProgramId(), positionLocation, "position");
 	glBindAttribLocation(shader->GetProgramId(), colorLocation, "color");
+	glm::mat4 proj = camera->GetProjection();
+	glm::mat4 view = camera->GetView();
+	glUniformMatrix4fv(modelMatLocation, 1, GL_FALSE, &modelMatrix[0][0]);
+	glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, &view[0][0]);
+	glUniformMatrix4fv(projectionMatLocation, 1, GL_FALSE, &proj[0][0]);
 	
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	
