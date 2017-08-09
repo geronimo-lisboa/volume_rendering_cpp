@@ -15,7 +15,8 @@ TelaGLFW::TelaGLFW(int screenWidth, int screenHeight)
 	if (!glfwInit()) { throw std::exception("Falha no glfwInit(). Tem algo MUITO errado acontecendo"); }
 	//OpenGL 3.2
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	window = glfwCreateWindow(screenWidth, screenHeight, "BOA NOITE", NULL, NULL);//A cria��o da janela � aqui
 	if (!window)//Se falhou em criar a janela, morre.
 	{

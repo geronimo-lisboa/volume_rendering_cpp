@@ -1,10 +1,35 @@
-
+#include <iostream>
 #include "framebuffer.h"
 
 
 
 Framebuffer::Framebuffer()
 {
+	glGenFramebuffers(1, &framebuffer);
+	//glGenRenderbuffers(1, &depthRenderbuffer);
+	glGenTextures(1, &texture);
+	//Cria e configura a textura
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 500, 500, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//Cria e configura o renderbuffer
+	//glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
+	//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, 500, 500);
+	//Bind do framebuffer
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+	//atacha a textura como color attachment
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,GL_TEXTURE_2D, texture, 0);
+	//e o depth buffer como depth attachment
+	//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
+	GLenum statusDoFramebuffer = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if (statusDoFramebuffer != GL_FRAMEBUFFER_COMPLETE)
+	{
+		std::stringstream erroFb;
+		erroFb << "ERRO DE FRAMEBUFFER CODIGO = " << statusDoFramebuffer;
+		throw std::exception(erroFb.str().c_str());
+	}
+	std::cout << "Aparentemente o framebuffer foi criado com sucesso" << std:: endl;
 	//Criação do shader
 	std::stringstream vsSrc, fsSrc;
 	vsSrc << "#version 400" << std::endl;
@@ -26,7 +51,7 @@ Framebuffer::Framebuffer()
 	shader = std::make_shared<Shader>(vsSrc, fsSrc);
 	teste_opengl();
 	//O VERTEX ARRAY OBJECT TEM QUE ESTAR CRIADO E BINDADO ANTES DE QQER
-	//OPERAÇÃO RELATIVA A VERTICES, COMO glEnableVertexAttribArray. SE O 
+	//OPERAÇÃO RELATIVA A VERTICES, COMO glEnableVertexAttribArray. SE O
 	//VAO NÃO ESTIVER BINDADO ANTES, VAI DAR ERRO 1282 em glEnableVertexAttribArray.
 	vertexArrayObject = 0;
 	glGenVertexArrays(1, &vertexArrayObject);
@@ -54,6 +79,8 @@ Framebuffer::Framebuffer()
 	vertexColorObject = CreateBuffer<float>(GL_ARRAY_BUFFER, colors);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexColorObject);
 	glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void Framebuffer::Render(const shared_ptr<Camera>& camera)
