@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(VolumeRendering)
-set(ITK_DIR "C:/itk_nova/ITK_build")
+set(ITK_DIR "C:/libs/itk/ITK_bin")
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
@@ -9,8 +9,8 @@ add_executable(vr ${my_source_files} )
 target_link_libraries(vr   ${ITK_LIBRARIES})
 find_package(OpenGL)
 target_link_libraries(vr ${OPENGL_LIBRARIES})
-include_directories(C:/libs/glew-2.0.0/include)
-target_link_libraries(vr C:/libs/glew-2.0.0/lib/Release/win32/glew32.lib)
+include_directories(C:/libs/glew-2.1.0/include)
+target_link_libraries(vr C:/libs/glew-2.1.0/lib/Release/x64/glew32.lib)
 
 include_directories(C:/libs/glfw/include)
 target_link_libraries(vr debug C:/libs/glfw_bin/src/Debug/glfw3.lib)
