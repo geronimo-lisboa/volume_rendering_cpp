@@ -46,8 +46,12 @@ TelaGLFW::TelaGLFW(int screenWidth, int screenHeight)
 	handleForGLFWCallbacks = this;//GAMBIARRA PQ A GLFW USA CALLBACKS DE C E NÃO STD::FUNCTION
 	glfwSetKeyCallback(window, TelaGLFW::InternalOnKeyInputCbk);
 
-	//glEnable(GL_DEPTH_TEST);
-	//glDepthFunc(GL_LEQUAL);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CW);
+
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
 
 }
 void TelaGLFW::SetOnKeyInputCallback(std::function<void(GLFWwindow* wnd, int key, int scancode, int action, int mods)> fn)
@@ -74,6 +78,7 @@ void TelaGLFW::InitRenderLoop()
 {
 	while (!glfwWindowShouldClose(window))
 	{
+		glClearColor(0.0f, 0.0f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		if(initFunction && !isInitialized)
 		{

@@ -20,7 +20,7 @@ int main(int argc, char** argv)
 	{
 
 		camera = make_shared<Camera>();
-		array<float, 3> pos = { {3.0, 2.0, -5.0} };
+		array<float, 3> pos = { {-3.0, -2.0, -5.0} };
 		array<float, 3> focus = { {0,0,0} };
 		array<float, 3> vUp = { {0,1,0} };
 		camera->LookAt(pos, focus, vUp);

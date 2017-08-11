@@ -64,12 +64,12 @@ VolumeRenderer::VolumeRenderer()
 	glEnableVertexAttribArray(colorLocation);
 	glUseProgram(0);
 	//Criação da geometria
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
 	//
 	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
@@ -78,7 +78,33 @@ VolumeRenderer::VolumeRenderer()
 	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
 	//
-
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//
+	vertexes.push_back(1.0f);  vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f);  vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
 
 	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
 	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
@@ -94,8 +120,33 @@ VolumeRenderer::VolumeRenderer()
 	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
 	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
 	//
-
-
+	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(1.0f);
+	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(1.0f);
+	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(1.0f);
+	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(1.0f);
+	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(1.0f);
+	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(1.0f);
+	//
+	colors.push_back(0.0f); colors.push_back(1.0f); colors.push_back(1.0f);
+	colors.push_back(0.0f); colors.push_back(1.0f); colors.push_back(1.0f);
+	colors.push_back(0.0f); colors.push_back(1.0f); colors.push_back(1.0f);
+	colors.push_back(0.0f); colors.push_back(1.0f); colors.push_back(1.0f);
+	colors.push_back(0.0f); colors.push_back(1.0f); colors.push_back(1.0f);
+	colors.push_back(0.0f); colors.push_back(1.0f); colors.push_back(1.0f);
+	//
+	colors.push_back(0.0f); colors.push_back(0.0f); colors.push_back(1.0f);
+	colors.push_back(0.0f); colors.push_back(0.0f); colors.push_back(1.0f);
+	colors.push_back(0.0f); colors.push_back(0.0f); colors.push_back(1.0f);
+	colors.push_back(0.0f); colors.push_back(0.0f); colors.push_back(1.0f);
+	colors.push_back(0.0f); colors.push_back(0.0f); colors.push_back(1.0f);
+	colors.push_back(0.0f); colors.push_back(0.0f); colors.push_back(1.0f);
+	//
+	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(1.0f);
+	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(1.0f);
+	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(1.0f);
+	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(1.0f);
+	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(1.0f);
+	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(1.0f);
 
 	vertexBufferObject = CreateBuffer<float>(GL_ARRAY_BUFFER, vertexes);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
