@@ -96,6 +96,8 @@ Framebuffer::Framebuffer()
 
 void Framebuffer::Render(const shared_ptr<Camera>& camera)
 {
+	glDepthMask(false);
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 	shader->UseProgram();
 
 	glActiveTexture(GL_TEXTURE0);
