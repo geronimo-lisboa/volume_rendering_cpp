@@ -1,4 +1,9 @@
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include "volumeRenderer.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include <glm/gtx/transform.hpp>
 
 void teste_opengl()
 {
@@ -10,6 +15,12 @@ void teste_opengl()
 		throw std::exception(ss.str().c_str());
 	}
 }
+void VolumeRenderer::Rotate(array<double, 3> vector, double angInDegs)
+{
+	const glm::vec3 v = glm::vec3(vector[0], vector[1], vector[2]);
+	modelMatrix = glm::rotate(glm::radians<float>(angInDegs), v);
+}
+
 VolumeRenderer::VolumeRenderer()
 {
 	modelMatrix = glm::mat4x4(1, 0, 0, 0,
@@ -56,7 +67,6 @@ VolumeRenderer::VolumeRenderer()
 	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
-
 	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
@@ -64,7 +74,6 @@ VolumeRenderer::VolumeRenderer()
 	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
 	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
-
 	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
 	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
@@ -74,7 +83,6 @@ VolumeRenderer::VolumeRenderer()
 	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
 	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
 	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
-
 	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
 	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
 	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
@@ -82,7 +90,6 @@ VolumeRenderer::VolumeRenderer()
 	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
 	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
 	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
-
 	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
 	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
 	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);

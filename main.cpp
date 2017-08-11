@@ -18,15 +18,15 @@ int main(int argc, char** argv)
 	bool useFramebuffer = false;
 	tela.SetInitCallback([&camera, &vr, &fb]()
 	{
-		//Inicializa��o da c�mera
+
 		camera = make_shared<Camera>();
 		array<float, 3> pos = { {3.0, 2.0, -5.0} };
 		array<float, 3> focus = { {0,0,0} };
 		array<float, 3> vUp = { {0,1,0} };
 		camera->LookAt(pos, focus, vUp);
-		//Inicializa��o do vr
+
 		vr = make_shared<VolumeRenderer>();
-		//Inicializa��o do framebuffer;
+
 		fb = make_shared<Framebuffer>();
 	});
 
@@ -43,13 +43,33 @@ int main(int argc, char** argv)
 			fb->Render(camera);
 		}
 	});
-
-	tela.SetOnKeyInputCallback([&useFramebuffer](GLFWwindow*wnd, int key, int scancode, int action, int mods){
+	double aX = 0, aY = 0;
+	tela.SetOnKeyInputCallback([&useFramebuffer, &aX, &aY, &vr](GLFWwindow*wnd, int key, int scancode, int action, int mods){
 		if ((key == GLFW_KEY_F) && (action ==1))
 		{
 
 			useFramebuffer = !useFramebuffer;
 			cout << "switch do framebuffer" << endl;
+		}
+		if ((key == GLFW_KEY_RIGHT) && (action == 1))
+		{
+			array<double, 3> vector = { { 0, 1, 0 } };
+			vr->Rotate(vector, --aY);
+		}
+		if ((key == GLFW_KEY_LEFT) && (action == 1))
+		{
+			array<double, 3> vector = { { 0, 1, 0 } };
+			vr->Rotate(vector, ++aY);
+		}
+		if ((key == GLFW_KEY_UP) && (action == 1))
+		{
+			array<double, 3> vector = { { 1, 0, 0 } };
+			vr->Rotate(vector, ++aX);
+		}
+		if ((key == GLFW_KEY_DOWN) && (action == 1))
+		{
+			array<double, 3> vector = { { 1, 0, 0 } };
+			vr->Rotate(vector, --aX);
 		}
 	});
 	tela.InitRenderLoop();

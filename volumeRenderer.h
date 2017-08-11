@@ -16,4 +16,5 @@ private:
 public:
 	VolumeRenderer();
 	void Render(const shared_ptr<Camera>& camera);
+	void Rotate(array<double, 3> vector, double angInDegs);
 };
