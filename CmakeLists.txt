@@ -24,4 +24,3 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 #suprime o warning chato dos infernos que a ITK gera por usar funções inseguras da api do windows
 add_definitions(-D_SCL_SECURE_NO_WARNINGS)
 
-
