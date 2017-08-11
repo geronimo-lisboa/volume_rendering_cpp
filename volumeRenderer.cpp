@@ -29,18 +29,18 @@ VolumeRenderer::VolumeRenderer()
 	vsSrc << "	gl_Position = projectionMat * viewMat * modelMat * vec4(position, 1.0);" << std::endl;
 	vsSrc << "	vertColor = color;" << std::endl;
 	vsSrc << "}" << std::endl;
-	
+
 	fsSrc<<"#version 400" << std::endl;
 	fsSrc << "in vec3 vertColor;" << std::endl;
 	fsSrc << "out vec4 fragColor;" << std::endl;
 	fsSrc << "	void main() {" << std::endl;
 	fsSrc << "	fragColor = vec4(vertColor, 1.0);" << std::endl;
 	fsSrc << "}" << std::endl;
-	
+
 	shader = std::make_shared<Shader>(vsSrc, fsSrc);
 	teste_opengl();
 	//O VERTEX ARRAY OBJECT TEM QUE ESTAR CRIADO E BINDADO ANTES DE QQER
-	//OPERAÇÃO RELATIVA A VERTICES, COMO glEnableVertexAttribArray. SE O 
+	//OPERAÇÃO RELATIVA A VERTICES, COMO glEnableVertexAttribArray. SE O
 	//VAO NÃO ESTIVER BINDADO ANTES, VAI DAR ERRO 1282 em glEnableVertexAttribArray.
 	vertexArrayObject = 0;
 	glGenVertexArrays(1, &vertexArrayObject);
@@ -53,14 +53,42 @@ VolumeRenderer::VolumeRenderer()
 	glEnableVertexAttribArray(colorLocation);
 	glUseProgram(0);
 	//Criação da geometria
-	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(0.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(0.0f);
-	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(0.0f);
-	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(0.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(1.0f);
+	//
+	vertexes.push_back(-1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+
+	vertexes.push_back(-1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(-1.0f); vertexes.push_back(-1.0f);
+	vertexes.push_back(1.0f); vertexes.push_back(1.0f); vertexes.push_back(-1.0f);
+	//
+
+
 	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
-	colors.push_back(0.0f); colors.push_back(1.0f); colors.push_back(0.0f);
-	colors.push_back(0.0f); colors.push_back(0.0f); colors.push_back(1.0f);
-	colors.push_back(0.0f); colors.push_back(0.1f); colors.push_back(0.0f);
+	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
+	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
+
+	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
+	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
+	colors.push_back(1.0f); colors.push_back(0.0f); colors.push_back(0.0f);
+	//
+	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
+	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
+	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
+
+	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
+	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
+	colors.push_back(1.0f); colors.push_back(1.0f); colors.push_back(0.0f);
+	//
+
+
 
 	vertexBufferObject = CreateBuffer<float>(GL_ARRAY_BUFFER, vertexes);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
@@ -73,15 +101,15 @@ VolumeRenderer::VolumeRenderer()
 void VolumeRenderer::Render(const shared_ptr<Camera>& camera)
 {
 	shader->UseProgram();
-	
+
 	glBindVertexArray(vertexArrayObject);
-	
+
 	GLuint positionLocation = shader->GetAttribute("position");
 	GLuint colorLocation = shader->GetAttribute("color");
 	GLuint modelMatLocation = shader->GetUniform("modelMat");
 	GLuint viewMatLocation = shader->GetUniform("viewMat");
 	GLuint projectionMatLocation = shader->GetUniform("projectionMat");
-	
+
 	glBindAttribLocation(shader->GetProgramId(), positionLocation, "position");
 	glBindAttribLocation(shader->GetProgramId(), colorLocation, "color");
 	glm::mat4 proj = camera->GetProjection();
@@ -89,8 +117,8 @@ void VolumeRenderer::Render(const shared_ptr<Camera>& camera)
 	glUniformMatrix4fv(modelMatLocation, 1, GL_FALSE, &modelMatrix[0][0]);
 	glUniformMatrix4fv(viewMatLocation, 1, GL_FALSE, &view[0][0]);
 	glUniformMatrix4fv(projectionMatLocation, 1, GL_FALSE, &proj[0][0]);
-	
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);	
+
+	glDrawArrays(GL_TRIANGLES, 0, vertexes.size()/3);
 }
 
 

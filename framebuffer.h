@@ -8,6 +8,8 @@
 class Framebuffer
 {
 private:
+	//Os nomes do framebuffer, do depthRenderBuffer e da textura
+	GLuint framebuffer, depthRenderbuffer, texture;
 	GLuint vertexArrayObject, vertexBufferObject, vertexColorObject;
 	std::vector<GLfloat> vertexes, colors;
 	std::shared_ptr<Shader> shader;
@@ -25,4 +27,6 @@ private:
 public:
 	Framebuffer();
 	void Render(const shared_ptr<Camera>& camera);
+	void Ativar();
+	void Desativar();
 };

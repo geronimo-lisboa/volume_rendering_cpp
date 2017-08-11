@@ -1,6 +1,6 @@
 ﻿#include "tela.h"
 #include <sstream>
-
+TelaGLFW* TelaGLFW::handleForGLFWCallbacks;
 TelaGLFW::TelaGLFW(int screenWidth, int screenHeight)
 {
 	this->screenWidth = screenWidth;
@@ -15,7 +15,8 @@ TelaGLFW::TelaGLFW(int screenWidth, int screenHeight)
 	if (!glfwInit()) { throw std::exception("Falha no glfwInit(). Tem algo MUITO errado acontecendo"); }
 	//OpenGL 3.2
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	window = glfwCreateWindow(screenWidth, screenHeight, "BOA NOITE", NULL, NULL);//A cria��o da janela � aqui
 	if (!window)//Se falhou em criar a janela, morre.
 	{
@@ -41,8 +42,18 @@ TelaGLFW::TelaGLFW(int screenWidth, int screenHeight)
 	isInitialized = false;
 	initFunction = nullptr;
 	renderFunction = nullptr;
-}
+	onKeyInputFunction = nullptr;
+	handleForGLFWCallbacks = this;//GAMBIARRA PQ A GLFW USA CALLBACKS DE C E NÃO STD::FUNCTION
+	glfwSetKeyCallback(window, TelaGLFW::InternalOnKeyInputCbk);
 
+	//glEnable(GL_DEPTH_TEST);
+	//glDepthFunc(GL_LEQUAL);
+
+}
+void TelaGLFW::SetOnKeyInputCallback(std::function<void(GLFWwindow* wnd, int key, int scancode, int action, int mods)> fn)
+{
+	this->onKeyInputFunction = fn;
+}
 TelaGLFW::~TelaGLFW()
 {
 	glfwDestroyWindow(window);

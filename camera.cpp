@@ -3,7 +3,7 @@
 #include <itkVector.h>
 Camera::Camera()
 {
-	projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.01f, 200.f);
+	projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
 	view = glm::mat4(1, 0, 0, 0,
 		0, 1, 0, 0,
 		0, 0, 1, 0,
